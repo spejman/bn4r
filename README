@@ -1,0 +1,62 @@
+
+= Bayesian Networks for Ruby ( bn4r )
+
+bn4r is a bayesian networks library on ruby that provides
+the user with classes for create bayesian networks and 
+diverse algorithms for solve them.
+
+Its algorithms implementation are based on: S.Russell, P.Norving, "Artificial
+Intelligence, A Modern Approach", 2nd Edition.
+
+Website:
+http://bn4r.rubyforge.org
+
+Rubyforge Project:
+http://rubyforge.org/projects/bn4r
+
+= Dependencies
+
+* rgl-0.2.3 ( Ruby Graph Library ), http://rgl.rubyforge.org
+
+= Design principles
+
+The library consists on the object BayesNet thinked to be filled with
+BayesNetNode, these objects are defined in bn.rb. BayesNet object is a
+especialization of RGL::DirectedAdjacencyGraph ( http://rgl.rubyforge.org ).
+
+
+The file bn_algorithms.rb has the implementation of the inference algorithms
+that can be used to solve BayesNet structures.
+
+Finally, a set of objects and methods are given to automaticly fill BayesNetNode
+probabilities tables.
+
+
+= Documentation
+
+Documentation can be found at
+http://bn4r.rubyforge.org/rdoc
+or can be generated using rdoc tool under the source code with:
+  rdoc README lib
+  
+= Credits
+
+Thanks to Núria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) for her work in this project
+without her it cannot be done.
+
+Thanks to Ryan Dahl for his work in http://www.math.rochester.edu/people/grads/rld/bayesnets
+that was the inspiration of the project.
+
+Also thanks to all the ruby community.
+
+== Copying
+
+This work is developed by Sergio Espeja ( http://www.upf.edu/pdi/iula/sergio.espeja, sergio.espeja at gmail.com )
+mainly in Institut Universitari de Lingüistica Aplicada of Universitat Pompeu Fabra ( http://www.iula.upf.es ),
+and also in bee.com.es ( http://bee.com.es ).
+
+It is free software, and may be redistributed under GPL license.
+
+== Support
+
+Please contact me in http://rubyforge.org/projects/bn4r.
