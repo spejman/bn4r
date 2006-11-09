@@ -17,10 +17,13 @@
 class BayesNet < DirectedAdjacencyGraph
 
 def to_dot(bn = self)
+  #TODO: label relations between nodes
+  #TODO: ¿print information about probabilities tables?
   bn.to_dot_graph.to_s
 end
 
 def to_xbn(bn = self)
+  #TODO beautify code using REXML
   xbn_str = "<?xml version=\"1.0\"?>\n"
   xbn_str += "<ANALYSISNOTEBOOK NAME=\"Notebook.bndefault\" ROOT=\"bndefault\">\n"
   xbn_str += "<BNMODEL NAME=\"bndefault\"><STATICPROPERTIES><FORMAT>MSR DTAS XML</FORMAT>\n"
