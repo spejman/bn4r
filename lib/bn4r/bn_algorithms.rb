@@ -107,24 +107,27 @@ class BayesNet < DirectedAdjacencyGraph
   # 
   # <b>x</b> --> query variable
   # 
-  # <b>e</b> --> variables with observed values
+  # <b>e</b> --> variables with observed values, must be a copy of the nodes
+  # in bn ( Can't be the BayesNetNodes instaces that are in bn ).
   # 
   # <b>n</b> --> Number of samples generated
-  #  
+  # 
+  # WARNING: Clears the values of current bn!
   def likelihood_weighting( x, e, n, bn = self )
   
     retval = [0.0, 0.0]
     n.times {
-      w_sample, w = weighted_sample(e)
-      value = w_sample.select { |v| v.name == x.name }[0].value
-      #p value
-      if value == x.value
+      w_sample, w = weighted_sample(e) # ask for a weighted_sample with given evidences
+      value = w_sample.select { |v| v.name == x.name }[0].value # select the value for the query variable
+
+      if value == (x.value || true) # if no value for x, ask for true
         retval[1] += w
       else
         retval[0] += w
       end
     }
   
+    # Normalize results
     norm = retval[1].to_f / (retval[0]+retval[1]).to_f
 
     return [norm, 1-norm]
@@ -164,6 +167,7 @@ class BayesNet < DirectedAdjacencyGraph
   # 
   # <b>e</b> --> variables with observed values
   # 
+  # WARNING: Clears the values of current bn!
   def weighted_sample(e, bn = self)
     
     nodes_ordered = bn.nodes_ordered_by_dependencies

@@ -25,6 +25,9 @@ class BayesNet < DirectedAdjacencyGraph
 # with tag ( if tag is included, othewise the label is nil ).
   def add_edge(parent, child, tag=nil)
     raise "Nodes must be of the class BayesNetNodes" if parent.class != BayesNetNode or child.class != BayesNetNode
+    raise "Self relations not allowed in BayesNet" if parent == child
+    raise "Diferent BayesNetNodes with equal name: " + parent.name if parent.name == child.name
+    
     edge = super(parent, child)
     child.parents << parent
     child.relations << tag if !tag.nil?
@@ -140,6 +143,12 @@ class BayesNetNode
   # Return the number of parents
   def num_parents
     parents.size
+  end
+  
+  # Function not implemented yet
+  def deep(visited_nodes=[])
+    #TODO: Make deep function
+    raise "Function not implemented yet"
   end
   
   # Returns true if the node is a root node ( doesn't have parents ).

@@ -56,10 +56,24 @@ class BNTPGFromPositiveNegativeRelations < BnTableProbabilitiesGenerator
   def self.get_node_probability_from_boolean_combination(boolean_combination, type_of_position_impact)
     num_eq = 0.0
     boolean_combination.size.times { |i|
-      num_eq = num_eq + 1.0 if type_of_position_impact[i] && boolean_combination[i]
-      num_eq = num_eq + 1.0 if !type_of_position_impact[i] && !boolean_combination[i]
+      num_eq += 1.0 if type_of_position_impact[i] && boolean_combination[i]
+      num_eq += 1.0 if !type_of_position_impact[i] && !boolean_combination[i]
     }
     num_eq / boolean_combination.size.to_f
   end
+end
+
+def generate_boolean_combinations(num)
+    boolean_combinations = []
+    (2**num).times { |i|
+      boolean_combination = Array.new(num, false)
+      actual_value = i
+      (num).times { |j|
+        boolean_combination[j] = !(actual_value%2 == 1)
+        actual_value = actual_value / 2
+      }
+      boolean_combinations << boolean_combination.reverse
+    }
+  boolean_combinations
 end
 
