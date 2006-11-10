@@ -1,3 +1,10 @@
+*0.1.2*
+ - Some bug fixes adding nodes to the network
+ 
+*0.1.1*
+ - Added export methods:
+ 	- create_from_xmlbif
+
 *0.1.1*
 
  - Added exceptions raise:

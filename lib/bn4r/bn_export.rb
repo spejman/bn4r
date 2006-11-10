@@ -8,6 +8,7 @@
 #  in bee.com.es ( http://bee.com.es )
 #  
 #  == Export formats implemented
+#  * dot (Graphviz .dot files)  
 #  * xbn (Microsoft Belief Networks)
 #
 ##############################################################

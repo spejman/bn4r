@@ -1,32 +1,37 @@
   # Returns the BayesNet used as example in "Artificial Intelligence A 
   # Modern Approach, Rusell & Norvig, 2nd Ed." pp.494
   def bayes_net_aima
+    # Create BayesNet
     bn_aima = BayesNet.new
     
-    b = BayesNetNode.new("Burglary")
-    e = BayesNetNode.new("Earthquake")
-    a = BayesNetNode.new("Alarm")
-    j = BayesNetNode.new("JohnCalls")
-    m = BayesNetNode.new("MaryCalls")
+    # Create nodes for the Bayes Net (BayesNetNodes)
+    burglary = BayesNetNode.new("Burglary")
+    earthquake = BayesNetNode.new("Earthquake")
+    alarm = BayesNetNode.new("Alarm")
+    john_calls = BayesNetNode.new("JohnCalls")
+    mary_calls = BayesNetNode.new("MaryCalls")
 
-    bn_aima.add_vertex(b)
-    bn_aima.add_vertex(e)
-    bn_aima.add_vertex(a)
-    bn_aima.add_vertex(j)
-    bn_aima.add_vertex(m)
+    # Add nodes ( vertex ) to the BayesNet
+    bn_aima.add_vertex(burglary)
+    bn_aima.add_vertex(earthquake)
+    bn_aima.add_vertex(alarm)
+    bn_aima.add_vertex(john_calls)
+    bn_aima.add_vertex(mary_calls)
     
-    bn_aima.add_edge(b,a)
-    bn_aima.add_edge(e,a)
-    bn_aima.add_edge(a,j)
-    bn_aima.add_edge(a,m)
+    # Add relations ( edges ) between nodes in the BayesNet
+    bn_aima.add_edge(burglary,alarm)
+    bn_aima.add_edge(earthquake,alarm)
+    bn_aima.add_edge(alarm,john_calls)
+    bn_aima.add_edge(alarm,mary_calls)
     
-    b.set_probability_table([], [0.001, 0.999] )
-    e.set_probability_table([], [0.002, 0.998] )
+    # Assign probabilities to each node
+    burglary.set_probability_table([], [0.001, 0.999] )
+    earthquake.set_probability_table([], [0.002, 0.998] )
     
-    a.set_probability_table([b,e], [0.95, 0.05, 0.94, 0.06, 0.29, 0.61, 0.001,0.999] )
+    alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.61, 0.001,0.999] )
     
-    j.set_probability_table([a], [0.90,0.10,0.05,0.95])
-    m.set_probability_table([a], [0.70,0.30,0.01,0.99])
+    john_calls.set_probability_table([alarm], [0.90,0.10,0.05,0.95])
+    mary_calls.set_probability_table([alarm], [0.70,0.30,0.01,0.99])
     
     bn_aima
   end

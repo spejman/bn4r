@@ -29,7 +29,7 @@ class BayesNet < DirectedAdjacencyGraph
     raise "Diferent BayesNetNodes with equal name: " + parent.name if parent.name == child.name
     
     edge = super(parent, child)
-    child.parents << parent
+    child.parents << parent unless child.parents.include? parent
     child.relations << tag if !tag.nil?
     edge
   end
@@ -166,6 +166,8 @@ class BayesNetNode
     return name + (value.nil? ? "" : (" = " + value.to_s))
   end
 
+  # If givens don't exist, it adds them
+  # 
   # if givens is nil, then internal givens is assumed
   # table must have probability values in order like BAD!!!
   # [g0=pos0 & g1=pos0 & ... & node_value=pos0, ..., g0=pos0 & g1=pos0 & ... & node_value=posN,
