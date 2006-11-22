@@ -53,14 +53,11 @@ def xbn_variables(bn = self)
   # <STATENAME>Yes</STATENAME>
   # <STATENAME>No</STATENAME>
   #</VAR>
-  x_pos_index = 0; y_pos_index = 0 #; actual_deep = 0
-  bn.nodes_ordered_by_dependencies.each { |node|
-    if !node.root? and (y_pos_index == 0)
-      x_pos_index = 0; y_pos_index = 1
-    end    
-    x_pos = 1000 + (6500*x_pos_index)
-    y_pos = 2500 + (5000*y_pos_index)
-    x_pos_index += 1
+  x_pos_index = Array.new(bn.deep, 0)
+  bn.nodes_ordered_by_dependencies.each { |node|    
+    x_pos = 1000 + (6500*x_pos_index[node.deep-1])
+    y_pos = 2500 + (5000*(node.deep-1))
+    x_pos_index[node.deep-1] += 1;
     xbn_str += "<VAR NAME=\"#{node.name}\" TYPE=\"discrete\" XPOS=\"#{x_pos}\" YPOS=\"#{y_pos}\">\n" 
     xbn_str += "<FULLNAME>#{node.name}</FULLNAME>\n"
     # TODO: Make statename match with node.outcomes

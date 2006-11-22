@@ -63,6 +63,11 @@ class BayesNet < DirectedAdjacencyGraph
     return v.parents.size
   end
 
+  # Returns de deep of the bayes net (larger path from a root node 
+  # to a child node).
+  def deep
+    vertices.collect {|root| root.deep }.max
+  end
   # Return the probability of a distribution in the bayes net
   # all nodes in the Bayes Net must have a value, otherwise
   # will raise a exception  
@@ -145,10 +150,13 @@ class BayesNetNode
     parents.size
   end
   
-  # Function not implemented yet
-  def deep(visited_nodes=[])
-    #TODO: Make deep function
-    raise "Function not implemented yet"
+  # Returns de deep of the node ( larger path to root nodes )
+  def deep(node=self)
+    res = 1
+    res += node.parents.collect { |parent|
+      parent.deep  
+    }.max unless node.root?
+    return res
   end
   
   # Returns true if the node is a root node ( doesn't have parents ).

@@ -16,6 +16,35 @@ class Bn4rTest < Test::Unit::TestCase
     assert_equal bn.edges.size, 4
   end
   
+  def test_deep
+    bn_aima = bayes_net_aima
+    b = bn_aima.get_variable("Burglary")
+    a = bn_aima.get_variable("Alarm")
+    j = bn_aima.get_variable("JohnCalls")
+    m = bn_aima.get_variable("MaryCalls")
+
+    assert_equal 1, b.deep
+    assert_equal 2, a.deep
+    assert_equal 3, j.deep
+    assert_equal 3, m.deep
+    
+    assert_equal 3, bn_aima.deep
+    
+    bn = bayes_net_aima2
+    rain = bn.get_variable("Rain").copy
+    sprinkler = bn.get_variable("Sprinkler").copy
+    wetgrass = bn.get_variable("WetGrass").copy
+    cloudy = bn.get_variable("Cloudy").copy
+    
+    assert_equal 1, cloudy.deep
+    assert_equal 2, rain.deep
+    assert_equal 2, sprinkler.deep
+    assert_equal 3, wetgrass.deep
+    assert_equal 3, bn.deep
+    
+    
+  end
+  
   
   def test_graph_viz
     bn = bayes_net_aaile
