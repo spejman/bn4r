@@ -9,6 +9,62 @@ class Bn4rTest < Test::Unit::TestCase
  
 # TESTS
  
+  def test_siblings
+    bn_aima = bayes_net_aima
+    b = bn_aima.get_variable("Burglary")
+    a = bn_aima.get_variable("Alarm")
+    j = bn_aima.get_variable("JohnCalls")
+    m = bn_aima.get_variable("MaryCalls")
+
+    b_siblings = bn_aima.siblings(b)
+    a_siblings = bn_aima.siblings(a)
+    j_siblings = bn_aima.siblings(j)
+    m_siblings = bn_aima.siblings(j)
+
+
+    
+    assert j_siblings.include?(j)
+    assert j_siblings.include?(m)
+    assert m_siblings.include?(j)
+    assert m_siblings.include?(m)
+    
+    assert_equal j_siblings.size, 2
+    assert_equal m_siblings.size, 2
+    assert_equal a_siblings.size, 1
+    assert_equal b_siblings.size, 2
+    
+  end
+ 
+  def test_childs
+    bn_aima = bayes_net_aima
+    b = bn_aima.get_variable("Burglary")
+    a = bn_aima.get_variable("Alarm")
+    j = bn_aima.get_variable("JohnCalls")
+    m = bn_aima.get_variable("MaryCalls")
+    
+    a_childs = bn_aima.childs(a)
+    
+    assert_equal a_childs.size, 2
+    assert a_childs.include?(j)
+    assert a_childs.include?(m)
+    
+    assert_equal bn_aima.childs(j).size, 0
+
+  end
+ 
+  def test_leafs
+  
+    bn_aima = bayes_net_aima
+    j = bn_aima.get_variable("JohnCalls")
+    m = bn_aima.get_variable("MaryCalls")
+
+    leafs = bn_aima.leafs
+    assert_equal leafs.size, 2
+    assert leafs.include?(j)
+    assert leafs.include?(m)
+    
+  end
+ 
   def test_create_sample_bn
     bn = bayes_net_aaile
   
@@ -45,6 +101,25 @@ class Bn4rTest < Test::Unit::TestCase
     
   end
   
+  def test_nodes_ordered_by_breath_first_search
+
+    bn_aima = bayes_net_aima
+    b = bn_aima.get_variable("Burglary")
+    e = bn_aima.get_variable("Earthquake")
+    a = bn_aima.get_variable("Alarm")
+    j = bn_aima.get_variable("JohnCalls")
+    m = bn_aima.get_variable("MaryCalls")
+
+    bn_ordered = bn_aima.nodes_ordered_by_breath_first_search([b,e])
+    
+    assert_equal bn_ordered.size, 5
+    assert_equal bn_ordered[0].name, b.name
+    assert_equal bn_ordered[1].name, a.name
+    assert [bn_ordered[2].name, bn_ordered[3].name].include?(j.name)
+    assert [bn_ordered[2].name, bn_ordered[3].name].include?(m.name)
+    assert_equal bn_ordered[4].name, e.name
+
+  end
   
   def test_graph_viz
     bn = bayes_net_aaile

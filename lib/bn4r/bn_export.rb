@@ -53,9 +53,19 @@ def xbn_variables(bn = self)
   # <STATENAME>Yes</STATENAME>
   # <STATENAME>No</STATENAME>
   #</VAR>
-  x_pos_index = Array.new(bn.deep, 0)
-  bn.nodes_ordered_by_dependencies.each { |node|    
-    x_pos = 1000 + (6500*x_pos_index[node.deep-1])
+  x_pos_index = Array.new(bn.deep, 0); x0_pos = Array.new(bn.deep, 0)
+  num_nodes_in_deep = Array.new(bn.deep, 0)
+  
+  # get how many nodes are in each deep level to calcule the offset
+  bn.vertices.each { |node| num_nodes_in_deep[node.deep-1] += 1 }
+  x0_pos = num_nodes_in_deep.collect { |num_nodes| 
+    a = num_nodes * 6500
+    b = num_nodes_in_deep.max * 6500
+    (b-a)/2
+  }
+  
+  bn.nodes_ordered_by_breath_first_search.each { |node|    
+    x_pos = x0_pos[node.deep-1] + (6500*x_pos_index[node.deep-1])
     y_pos = 2500 + (5000*(node.deep-1))
     x_pos_index[node.deep-1] += 1;
     xbn_str += "<VAR NAME=\"#{node.name}\" TYPE=\"discrete\" XPOS=\"#{x_pos}\" YPOS=\"#{y_pos}\">\n" 

@@ -1,3 +1,9 @@
+*0.1.4*
+ - New methods:
+ 	- leafs, each_leaf, childs(node), each_child(node)
+ 	- nodes_ordered_by_breath_first_search
+ - xbn exports with nodes positioned more intuitive.
+
 *0.1.3*
  - Added method deep in BayesNet and BayesNetNode
  - Export to_xbn with deep level

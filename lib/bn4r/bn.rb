@@ -13,6 +13,7 @@
 ##############################################################
 require 'rgl/adjacency'
 require 'rgl/dot'
+require 'rgl/traversal'
 
 include RGL
 
@@ -37,6 +38,16 @@ class BayesNet < DirectedAdjacencyGraph
 # BN Methods
 # ----------
 
+  # Returns an array with childs of given node ( or vertice )
+  def childs(v)
+    self.adjacent_vertices(v)
+  end
+
+  # Iterates all the childs of given node ( or vertice )
+  def each_child(v)
+    childs(v).each { |child| yield child }
+  end
+
   # Clears the value of all BayesNetNodes in Bayes Net.
   def clear_values!
       vertices.each { |v| v.clear_value }
@@ -51,6 +62,24 @@ class BayesNet < DirectedAdjacencyGraph
   def roots
     vertices.select { |v| root?(v) }
   end
+
+  # Returns the leaf nodes
+  def leafs
+    vertices.select { |v| childs(v).size == 0 }
+  end
+
+  # Iterates all the leaf nodes ( or vertices )
+  def each_leaf
+    leafs.each { |leaf| yield leaf }
+  end
+  
+  def siblings(v)
+    return roots if v.root?
+    v.parents.map do |p|
+      childs(p)
+    end.flatten.uniq
+  end
+
 
   # Returns true/false if given Node is root.
   def root?(v)
@@ -100,7 +129,17 @@ class BayesNet < DirectedAdjacencyGraph
      return bn_ordered.flatten
   end
 
- 
+  # Returns nodes ordered by Breath First Search
+  def nodes_ordered_by_breath_first_search(nodes = roots, bn_ordered = Array.new)
+
+    nodes.each { |v| 
+      next if bn_ordered.include?(v)
+      bn_ordered << v
+      nodes_ordered_by_breath_first_search(childs(v), bn_ordered)
+    }
+    return bn_ordered.flatten
+  end
+  
 end
 
 class BayesNetNode
