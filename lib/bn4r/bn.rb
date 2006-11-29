@@ -35,6 +35,20 @@ class BayesNet < DirectedAdjacencyGraph
     edge
   end
 
+  # Removes a vertex and its edges of the BayesNet, removing
+  # also its references from childs nodes.
+  def remove_vertex(v)
+    self.each_child(v) {|c| c.parents.delete(v)}
+    super(v)
+  end
+
+# Adds a vertex to the BayesNet
+#  def add_vertex(node)
+#    raise "BayesNet nodes must be of BayesNetNode class" if node.class != BayesNetNode
+#    raise "Already exists a node with name #{node.name}" unless get_variable(node.name).nil?
+#    super(node)
+#  end
+
 # BN Methods
 # ----------
 
@@ -56,6 +70,7 @@ class BayesNet < DirectedAdjacencyGraph
   # Gets the variable with given name.
   def get_variable( text )
     vertices.each { |v| return v if v.name == text }
+    return nil
   end
 
   # Returns the root nodes of the Bayes Net.
