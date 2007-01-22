@@ -54,7 +54,11 @@ class BayesNet < DirectedAdjacencyGraph
 
   # Returns an array with childs of given node ( or vertice )
   def childs(v)
-    self.adjacent_vertices(v)
+    begin
+      self.adjacent_vertices(v)
+    rescue RGL::NoVertexError
+      []
+    end
   end
 
   # Iterates all the childs of given node ( or vertice )
@@ -171,6 +175,11 @@ class BayesNetNode
     @extra_info = extra_info
     @givens = []
     @relations = []
+  end
+
+  # Renames a node
+  def rename(new_name)
+    @name = new_name  
   end
 
   # Returns a copy of the node itself

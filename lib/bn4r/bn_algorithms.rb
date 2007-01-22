@@ -45,8 +45,13 @@ class BayesNet < DirectedAdjacencyGraph
   # The input are the nodes of the bn ordered by dependencies see nodes_ordered_by_dependencies
   def prior_sample(nodes_ordered = nodes_ordered_by_dependencies)
     sample = Array.new
-    nodes_ordered.each { |v| 
-      value = rand < v.get_probability(true)
+    nodes_ordered.each { |v|
+      value = nil
+      prob = 0.0; r_prob = rand
+      v.outcomes.each { |outcome| 
+        prob += v.get_probability(outcome)
+        value = outcome and break if r_prob < prob
+      }
       v.set_value(value) 
       sample << v.copy
     }
@@ -181,7 +186,12 @@ class BayesNet < DirectedAdjacencyGraph
         value = node_actual[0].value
         w = w * v.get_probability(value)
       else
-        value = rand < v.get_probability(true)
+        rand_sample = rand; i_tmp = 0.0
+        v.outcomes.each { |outcome|
+          value = outcome
+          i_tmp += v.get_probability(value)
+          break if i_tmp > rand_sample          
+        }
       end
       v.set_value(value) 
       sample << v.copy

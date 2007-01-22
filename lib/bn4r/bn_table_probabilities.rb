@@ -77,3 +77,13 @@ def generate_boolean_combinations(num)
   boolean_combinations
 end
 
+def generate_combinations(nodes)
+  # Selecting nodes whith outcomes diferents from true, false.
+  nodes_notbinaries = nodes.select {|node| !(node.outcomes - [true,false]).empty? }
+
+  #TODO: Implement combinations for nodes with outcomes different from [true,false]
+  raise "Function still not implemented ( parents with outcomes different from [true,false] )" \
+     if !nodes_notbinaries.empty?
+  generate_boolean_combinations(nodes.size)
+end
+

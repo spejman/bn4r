@@ -19,7 +19,7 @@ class BayesNet < DirectedAdjacencyGraph
 
 def to_dot(bn = self)
   #TODO: label relations between nodes
-  #TODO: ¿print information about probabilities tables?
+  #TODO: print information about probabilities tables?
   bn.to_dot_graph.to_s
 end
 
@@ -70,9 +70,12 @@ def xbn_variables(bn = self)
     x_pos_index[node.deep-1] += 1;
     xbn_str += "<VAR NAME=\"#{node.name}\" TYPE=\"discrete\" XPOS=\"#{x_pos}\" YPOS=\"#{y_pos}\">\n" 
     xbn_str += "<FULLNAME>#{node.name}</FULLNAME>\n"
-    # TODO: Make statename match with node.outcomes
-    xbn_str += "<STATENAME>Yes</STATENAME>\n"
-    xbn_str += "<STATENAME>No</STATENAME>\n"
+    if (node.outcomes - [true,false]).empty?
+      xbn_str += "<STATENAME>Yes</STATENAME>\n"
+      xbn_str += "<STATENAME>No</STATENAME>\n"
+    else
+      node.outcomes.each {|o| xbn_str += "<STATENAME>#{o}</STATENAME>\n"}
+    end
     xbn_str += "</VAR>\n"
   }
   xbn_str += "</VARIABLES>\n" 
@@ -126,10 +129,14 @@ bn.nodes_ordered_by_dependencies.each { |node|
   xbn_str += "  </CONDSET>\n"
 
   xbn_str += "  <DPIS>\n"
-  boolean_combinations = generate_boolean_combinations(node.num_parents)
+
+  boolean_combinations = generate_combinations(node.parents)
   boolean_combinations.each { |boolean_combination|
-    # TODO: Make probs based on outcomes
-    probs = [true, false].collect { |n_assignment| node.get_probability(n_assignment, boolean_combination) }
+    
+    probs = node.outcomes.collect { |n_assignment| 
+    p "n_assignment: " + n_assignment.to_s
+    node.get_probability(n_assignment, boolean_combination) }
+    
     bc_str = boolean_combination.collect {|b| (b)?"0":"1"}.join(" ")
     xbn_str += "  <DPI INDEXES=\"#{bc_str} \">" + probs.join(" ") + " </DPI>\n"
     #<DPI INDEXES=\"0 0 0 \">0.7 0.3 </DPI>
