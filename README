@@ -28,6 +28,9 @@ especialization of RGL::DirectedAdjacencyGraph ( http://rgl.rubyforge.org ).
 The file bn_algorithms.rb has the implementation of the inference algorithms
 that can be used to solve BayesNet structures.
 
+Files bn_export.rb and bn_import.rb have methods for import and export bayesian
+networkd in different formats.
+
 Finally, a set of objects and methods are given to automaticly fill BayesNetNode
 probabilities tables.
 
@@ -107,7 +110,7 @@ or can be generated using rdoc tool under the source code with:
   
 == Credits
 
-Thanks to Núria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) for her work in this project
+Thanks to NÃºria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) for her work in this project
 without her it cannot be done.
 
 Thanks to Ryan Dahl for his work in http://www.math.rochester.edu/people/grads/rld/bayesnets
@@ -118,7 +121,7 @@ Also thanks to all the ruby community.
 == Copying
 
 This work is developed by Sergio Espeja ( http://www.upf.edu/pdi/iula/sergio.espeja, sergio.espeja at gmail.com )
-mainly in Institut Universitari de Lingüistica Aplicada of Universitat Pompeu Fabra ( http://www.iula.upf.es ),
+mainly in Institut Universitari de LingÃ¼istica Aplicada of Universitat Pompeu Fabra ( http://www.iula.upf.es ),
 and also in bee.com.es ( http://bee.com.es ).
 
 It is free software, and may be redistributed under GPL license.

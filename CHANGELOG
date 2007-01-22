@@ -1,3 +1,7 @@
+*0.9*
+ - Supports non boolean outcomes. The value of a node can be discrete,
+ is not obligatory to be boolean.
+
 *0.1.4*
  - New methods:
  	- leafs, each_leaf, childs(node), each_child(node)
