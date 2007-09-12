@@ -11,6 +11,10 @@ Intelligence, A Modern Approach", 2nd Edition.
 Website:
 http://bn4r.rubyforge.org
 
+Spanish Website:
+http://bn4r.rubyforge.org/es
+
+
 Rubyforge Project:
 http://rubyforge.org/projects/bn4r
 
@@ -36,7 +40,7 @@ probabilities tables.
 
 == Play a bit ...
 
-1. Install the gem ( bn4r-0.1.2.gem )
+1. Install the gem ( bn4r-0.9.0.gem )
 	gem install bn4r
 
 2. Include the bn4r
@@ -71,7 +75,7 @@ probabilities tables.
 	burglary.set_probability_table([], [0.001, 0.999] )
 	earthquake.set_probability_table([], [0.002, 0.998] )
 	
-	alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.61, 0.001,0.999] )
+	alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.71, 0.001,0.999] )
 	
 	john_calls.set_probability_table([alarm], [0.90,0.10,0.05,0.95])
 	mary_calls.set_probability_table([alarm], [0.70,0.30,0.01,0.99])
@@ -110,7 +114,7 @@ or can be generated using rdoc tool under the source code with:
   
 == Credits
 
-Thanks to NÃºria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) for her work in this project
+Thanks to Núria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) for her work in this project
 without her it cannot be done.
 
 Thanks to Ryan Dahl for his work in http://www.math.rochester.edu/people/grads/rld/bayesnets
@@ -121,7 +125,7 @@ Also thanks to all the ruby community.
 == Copying
 
 This work is developed by Sergio Espeja ( http://www.upf.edu/pdi/iula/sergio.espeja, sergio.espeja at gmail.com )
-mainly in Institut Universitari de LingÃ¼istica Aplicada of Universitat Pompeu Fabra ( http://www.iula.upf.es ),
+mainly in Institut Universitari de Lingüística Aplicada of Universitat Pompeu Fabra ( http://www.iula.upf.es ),
 and also in bee.com.es ( http://bee.com.es ).
 
 It is free software, and may be redistributed under GPL license.

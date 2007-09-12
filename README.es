@@ -1,17 +1,17 @@
 
 = Redes Bayesianas para Ruby ( bn4r )
 
-bn4r es una librer√≠a de redes bayesianas en Ruby que proporciona
+bn4r es una librerÌa de redes bayesianas en Ruby que proporciona
 al usuario clases para crear redes bayesianas y varios algoritmos
 para resolverlas.
 
-La implementaci√≥n de los algoritmos est√° basada en: S.Russell, P.Norving, "Artificial
+La implementaciÛn de los algoritmos est· basada en: S.Russell, P.Norving, "Artificial
 Intelligence, A Modern Approach", 2nd Edition.
 
-P√°gina web:
+P·gina web:
 http://bn4r.rubyforge.org/es
 
-P√°gina web (versi√≥n inglesa):
+P·gina web (versiÛn inglesa):
 http://bn4r.rubyforge.org
 
 Proyecto en Rubyforge:
@@ -21,19 +21,19 @@ http://rubyforge.org/projects/bn4r
 
 * rgl-0.2.3 ( Ruby Graph Library ), http://rgl.rubyforge.org
 
-== Principios de dise√±o
+== Principios de diseÒo
 
-La librer√≠a consiste en el objeto BayesNet pensado para llenarse con
-objetos del tipo BayesNetNode, estos objetos est√°n definidos en bn.rb.
-El objeto BayesNet es una especializaci√≥n de RGL::DirectedAdjacencyGraph ( http://rgl.rubyforge.org ).
+La librerÌ≠a consiste en el objeto BayesNet pensado para llenarse con
+objetos del tipo BayesNetNode, estos objetos est·n definidos en bn.rb.
+El objeto BayesNet es una especializaciÛn de RGL::DirectedAdjacencyGraph ( http://rgl.rubyforge.org ).
 
-En el archivo bn_algorithms.rb est√° la implementaci√≥n de los algorimos de inferencia
-que resuelven las estructuras BayesNet creadas con la librer√≠a.
+En el archivo bn_algorithms.rb est· la implementaciÛn de los algorimos de inferencia
+que resuelven las estructuras BayesNet creadas con la librerÌa.
 
-Los archivos bn_export.rb y bn_import.rb contienen m√©todos para importar y exportar las
+Los archivos bn_export.rb y bn_import.rb contienen mÈtodos para importar y exportar las
 redes bayesianas en varios formatos.
 
-Finalmente se distribuyen unos m√©todos para rellenar autom√°ticamente las tablas
+Finalmente se distribuyen unos mÈtodos para rellenar autom·ticamente las tablas
 de probabilidades condicionadas de los nodos de la red bayesiana (BayesNetNode)
 
 == Jugando un poco ...
@@ -73,7 +73,7 @@ de probabilidades condicionadas de los nodos de la red bayesiana (BayesNetNode)
 	burglary.set_probability_table([], [0.001, 0.999] )
 	earthquake.set_probability_table([], [0.002, 0.998] )
 	
-	alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.61, 0.001,0.999] )
+	alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.71, 0.001,0.999] )
 	
 	john_calls.set_probability_table([alarm], [0.90,0.10,0.05,0.95])
 	mary_calls.set_probability_table([alarm], [0.70,0.30,0.01,0.99])
@@ -103,31 +103,30 @@ de probabilidades condicionadas de los nodos de la red bayesiana (BayesNetNode)
 	# (download for free in: http://research.microsoft.com/adapt/MSBNx )
 	bn_aima.to_xbn
 
-== Documentaci√≥n
+== DocumentaciÛn
 
-Se puede encontrar Documentaci√≥n en ingles en la direcci√≥n
+Se puede encontrar DocumentaciÛn en ingles en la direcciÛn
 http://bn4r.rubyforge.org/rdoc
 o se puede generar con rdoc con el comando:
   rdoc README lib
   
 == Creditos
 
-Gracias a N√∫ria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) por su trabajo en este proyecto
-sin ella no se podr√≠a haber hecho.
+Gracias a N˙ria Bel ( http://www.upf.edu/pdi/iula/nuria.bel ) por su trabajo en este proyecto
+sin ella no se podrÌ≠a haber hecho.
 
 Gracias a Ryan Dahl por su trabajo en http://www.math.rochester.edu/people/grads/rld/bayesnets,
 fue la idea base del proyecto.
 
-Tambi√©n gracias a toda la comunidad ruby.
+TambiÈn gracias a toda la comunidad Ruby.
 
 == Copyright
 
 Este trabajo esta desarrollado por Sergio Espeja ( http://www.upf.edu/pdi/iula/sergio.espeja, sergio.espeja en gmail.com )
-principalmente en el Institut Universitari de Ling√ºistica Aplicada de la Universitat Pompeu Fabra ( http://www.iula.upf.es ),
+principalmente en el Institut Universitari de Ling¸Ìstica Aplicada de la Universitat Pompeu Fabra ( http://www.iula.upf.es ),
 y en bee.com.es ( http://bee.com.es ).
 
 Es software libre y debe distribuirse bajo la licencia GPL.
-It is free software, and may be redistributed under GPL license.
 
 == Soporte
 
