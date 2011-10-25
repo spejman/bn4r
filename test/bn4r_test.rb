@@ -101,7 +101,7 @@ class Bn4rTest < Test::Unit::TestCase
     
   end
   
-  def test_nodes_ordered_by_breath_first_search
+  def test_nodes_ordered_by_breadth_first_search
 
     bn_aima = bayes_net_aima
     b = bn_aima.get_variable("Burglary")
@@ -110,7 +110,7 @@ class Bn4rTest < Test::Unit::TestCase
     j = bn_aima.get_variable("JohnCalls")
     m = bn_aima.get_variable("MaryCalls")
 
-    bn_ordered = bn_aima.nodes_ordered_by_breath_first_search([b,e])
+    bn_ordered = bn_aima.nodes_ordered_by_breadth_first_search([b,e])
     
     assert_equal bn_ordered.size, 5
     assert_equal bn_ordered[0].name, b.name

@@ -62,8 +62,8 @@ class BayesNet < DirectedAdjacencyGraph
   end
 
   # Iterates all the childs of given node ( or vertice )
-  def each_child(v)
-    childs(v).each { |child| yield child }
+  def each_child(v, &block)
+    childs(v).each(&block)
   end
 
   # Clears the value of all BayesNetNodes in Bayes Net.
@@ -73,8 +73,7 @@ class BayesNet < DirectedAdjacencyGraph
 
   # Gets the variable with given name.
   def get_variable( text )
-    vertices.each { |v| return v if v.name == text }
-    return nil
+    vertices.find { |v| v.name == text }
   end
 
   # Returns the root nodes of the Bayes Net.
@@ -88,8 +87,8 @@ class BayesNet < DirectedAdjacencyGraph
   end
 
   # Iterates all the leaf nodes ( or vertices )
-  def each_leaf
-    leafs.each { |leaf| yield leaf }
+  def each_leaf(&block)
+    leafs.each(&block)
   end
   
   def siblings(v)
@@ -102,27 +101,26 @@ class BayesNet < DirectedAdjacencyGraph
 
   # Returns true/false if given Node is root.
   def root?(v)
-    return true if num_parents(v) == 0
-    false
+    num_parents(v) == 0
   end
 
   # Returns the number of parents of a node.
   def num_parents(v)
-    return v.parents.size
+    v.parents.size
   end
 
   # Returns de deep of the bayes net (larger path from a root node 
   # to a child node).
-  def deep
+  def deep # TODO depth?
     vertices.collect {|root| root.deep }.max
   end
   # Return the probability of a distribution in the bayes net
   # all nodes in the Bayes Net must have a value, otherwise
   # will raise a exception  
-  def inference_by_enumeration
-    prob = 1.0;
-    vertices.each {|v| prob = prob * p_v_cond_parents(v)}
-    prob
+  def inference_by_enumeration # inject!
+    vertices.inject(1) do |memo, v|
+      memo * p_v_cond_parents(v)
+    end
   end
 
   # Returns the probability of a node conditioned to his parents:
@@ -134,7 +132,7 @@ class BayesNet < DirectedAdjacencyGraph
   
   # Returns true if all nodes have values.
   def all_nodes_with_values?
-    vertices.select {|v| !v.value.nil? }.size == vertices.size
+    vertices.none? {|v| v.value.nil? }
   end
 
   # Returns nodes ordered by dependencies ( from those who haven't ( roots )
@@ -148,13 +146,12 @@ class BayesNet < DirectedAdjacencyGraph
      return bn_ordered.flatten
   end
 
-  # Returns nodes ordered by Breath First Search
-  def nodes_ordered_by_breath_first_search(nodes = roots, bn_ordered = Array.new)
-
+  # Returns nodes ordered by Breadth First Search
+  def nodes_ordered_by_breadth_first_search(nodes = roots, bn_ordered = Array.new)
     nodes.each { |v| 
       next if bn_ordered.include?(v)
       bn_ordered << v
-      nodes_ordered_by_breath_first_search(childs(v), bn_ordered)
+      nodes_ordered_by_breadth_first_search(childs(v), bn_ordered)
     }
     return bn_ordered.flatten
   end
@@ -200,12 +197,12 @@ class BayesNetNode
 
   # Return node parents  
   def parents
-    return @givens
+    @givens
   end
 
   # Return node relations
   def relations
-    return @relations
+    @relations
   end
 
   # Return the number of parents
@@ -214,27 +211,26 @@ class BayesNetNode
   end
   
   # Returns de deep of the node ( larger path to root nodes )
-  def deep(node=self)
-    res = 1
-    res += node.parents.collect { |parent|
-      parent.deep  
-    }.max unless node.root?
-    return res
+  def deep(node=self) # depth?
+    if node.root? 
+      1 
+    else
+      node.parents.map{|p| p.deep }.max + 1
+    end
   end
   
   # Returns true if the node is a root node ( doesn't have parents ).
   def root?
-    return true if num_parents == 0
-    false
+    num_parents == 0
   end
 
   # Returns true if all parents of the node in the bn have values
   def all_parents_with_values?
-    parents.select {|v| !v.value.nil? }.size == parents.size
+    parents.none? {|v| v.value.nil? }
   end
 
   def to_s
-    return name + (value.nil? ? "" : (" = " + value.to_s))
+    name + (value.nil? ? "" : (" = " + value.to_s))
   end
 
   # If givens don't exist, it adds them
@@ -246,7 +242,7 @@ class BayesNetNode
   def set_probability_table (givens, table)
     # perhaps we should do some error checking on the table entries here?
     @table_is_a_proc = (table.class != Array)
-    @givens = givens if !givens.nil?
+    @givens = givens unless givens.nil?
     
     raise "Error table incorrect number of positions (" \
       + table.size.to_s + " of " + self.get_table_size.to_s \
@@ -262,9 +258,7 @@ class BayesNetNode
   # returns the number of cells that conditional probability table ( CPT )
   # haves.
   def get_table_size
-    num = @outcomes.size
-    @givens.each { |given| num = num * given.outcomes.size }
-    return num
+    @givens.inject(@outcomes.size){ |mem, g| mem * g.outcomes.size }
   end
   
   # Sets a probability to the node with a node_assignment conditioned to given_assignments
@@ -281,7 +275,7 @@ class BayesNetNode
 #    raise "Node must have a value and a givens_assignments, otherwise put" \
  #         + "them in function call" if node_assignment.nil? or givens_assignments.nil?
     # if there's a cached table take the index
-    return @table[get_table_index(node_assignment, givens_assignments)] if @table_is_a_proc.nil? or !@table_is_a_proc
+    return @table[get_table_index(node_assignment, givens_assignments)] if @table_is_a_proc.nil? || !@table_is_a_proc
     # if the value is calculated on the fly using a function instead of
     # a table
     return @table[node_assignment, givens_assignments]
@@ -323,8 +317,6 @@ class BayesNetNode
     end
     
     index += @outcomes.index(node_assignment)
-    
-    return index
   end
 
   
