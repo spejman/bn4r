@@ -50,8 +50,8 @@ Usage Examples
 	`require 'bn4r'`
 
 3. Create your first bayes net
-`
-#Create BayesNet
+
+`#Create BayesNet
 bn_aima = BayesNet.new
 
 # Create nodes for the Bayes Net (BayesNetNodes)
