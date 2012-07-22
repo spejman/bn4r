@@ -51,62 +51,62 @@ Usage Examples
 
 3. Create your first bayes net
 `
-	# Create BayesNet
-	bn_aima = BayesNet.new
-	
-	# Create nodes for the Bayes Net (BayesNetNodes)
-	burglary = BayesNetNode.new("Burglary")
-	earthquake = BayesNetNode.new("Earthquake")
-	alarm = BayesNetNode.new("Alarm")
-	john_calls = BayesNetNode.new("JohnCalls")
-	mary_calls = BayesNetNode.new("MaryCalls")
-	
-	# Add nodes ( vertex ) to the BayesNet
-	bn_aima.add_vertex(burglary)
-	bn_aima.add_vertex(earthquake)
-	bn_aima.add_vertex(alarm)
-	bn_aima.add_vertex(john_calls)
-	bn_aima.add_vertex(mary_calls)
-	
-	# Add relations ( edges ) between nodes in the BayesNet
-	bn_aima.add_edge(burglary,alarm)
-	bn_aima.add_edge(earthquake,alarm)
-	bn_aima.add_edge(alarm,john_calls)
-	bn_aima.add_edge(alarm,mary_calls)
-	
-	# Assign probabilities to each node
-	burglary.set_probability_table([], [0.001, 0.999] )
-	earthquake.set_probability_table([], [0.002, 0.998] )
-	
-	alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.71, 0.001,0.999] )
-	
-	john_calls.set_probability_table([alarm], [0.90,0.10,0.05,0.95])
-	mary_calls.set_probability_table([alarm], [0.70,0.30,0.01,0.99])`
+#Create BayesNet
+bn_aima = BayesNet.new
+
+# Create nodes for the Bayes Net (BayesNetNodes)
+burglary = BayesNetNode.new("Burglary")
+earthquake = BayesNetNode.new("Earthquake")
+alarm = BayesNetNode.new("Alarm")
+john_calls = BayesNetNode.new("JohnCalls")
+mary_calls = BayesNetNode.new("MaryCalls")
+
+# Add nodes ( vertex ) to the BayesNet
+bn_aima.add_vertex(burglary)
+bn_aima.add_vertex(earthquake)
+bn_aima.add_vertex(alarm)
+bn_aima.add_vertex(john_calls)
+bn_aima.add_vertex(mary_calls)
+
+# Add relations ( edges ) between nodes in the BayesNet
+bn_aima.add_edge(burglary,alarm)
+bn_aima.add_edge(earthquake,alarm)
+bn_aima.add_edge(alarm,john_calls)
+bn_aima.add_edge(alarm,mary_calls)
+
+# Assign probabilities to each node
+burglary.set_probability_table([], [0.001, 0.999] )
+earthquake.set_probability_table([], [0.002, 0.998] )
+
+alarm.set_probability_table([burglary,earthquake], [0.95, 0.05, 0.94, 0.06, 0.29, 0.71, 0.001,0.999] )
+
+john_calls.set_probability_table([alarm], [0.90,0.10,0.05,0.95])
+mary_calls.set_probability_table([alarm], [0.70,0.30,0.01,0.99])`
 
 6. Solve it!
-	
-	`# John and Mary are calling ...
-	john_calls.set_value(true)  
-	mary_calls.set_value(true)
 
-	# Why?
-	is_there_a_burglary = bn_aima.enumeration_ask( burglary, [john_calls, mary_calls] )
-	puts "Call the police!" if is_there_a_burglary[0] > is_there_a_burglary[1]
+`# John and Mary are calling ...
+john_calls.set_value(true)  
+mary_calls.set_value(true)
 
-	is_the_alarm_on = bn_aima.enumeration_ask( alarm, [john_calls, mary_calls] )
-	puts "Run home, your alarm is distubing the neigborhood!" if is_the_alarm_on[0] > is_the_alarm_on[1]
+# Why?
+is_there_a_burglary = bn_aima.enumeration_ask( burglary, [john_calls, mary_calls] )
+puts "Call the police!" if is_there_a_burglary[0] > is_there_a_burglary[1]
 
-	is_there_a_earthquake = bn_aima.enumeration_ask( earthquake, [john_calls, mary_calls] )
-	puts "Calm yourself, there isn't a earthquake ;)" if is_there_a_earthquake[0] < is_there_a_earthquake[1]`	
+is_the_alarm_on = bn_aima.enumeration_ask( alarm, [john_calls, mary_calls] )
+puts "Run home, your alarm is distubing the neigborhood!" if is_the_alarm_on[0] > is_the_alarm_on[1]
+
+is_there_a_earthquake = bn_aima.enumeration_ask( earthquake, [john_calls, mary_calls] )
+puts "Calm yourself, there isn't a earthquake ;)" if is_there_a_earthquake[0] < is_there_a_earthquake[1]`	
 
 7. See how your bayes net looks like
 
- `#In .dot format
-	bn_aima.to_dot
-	
-	# In Microsoft Belief Networks (.xbn) format
-	# (download for free in: http://research.microsoft.com/adapt/MSBNx )
-	bn_aima.to_xbn`
+`#In .dot format
+bn_aima.to_dot
+
+# In Microsoft Belief Networks (.xbn) format
+# (download for free in: http://research.microsoft.com/adapt/MSBNx )
+bn_aima.to_xbn`
 
 
 Documentation
