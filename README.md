@@ -45,11 +45,11 @@ Usage Examples
 
 1. Install the gem ( bn4r-0.9.0.gem )
     
-    gem install bn4r
+    `gem install bn4r`
 
 2. Include the bn4r
 
-    require 'bn4r'
+    `require 'bn4r'`
 
 3. Create your first bayes net
 
